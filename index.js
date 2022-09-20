@@ -16,15 +16,30 @@ const init = async () => {
   console.log(res.data);
 };
 
+const chatID = 883945872
+
 app.post(URI, async (req, res) => {
   console.log(req.body);
-
   await axios.post(`${TELEGRAM_API}/sendMessage`, {
-    chat_id: req.body.message.chat.id,
+    chat_id: chatID,
     text: req.body.message.text
   })
-
   return res.send();
+});
+
+app.post("/send", async (req, res) => {
+  try {
+    await axios.post(`${TELEGRAM_API}/sendMessage`, {
+      chat_id: chatID,
+      text: req.body
+    })
+    return res.send("Successfull!");
+  } catch (err) {
+    return res.status(500).json({
+      message:
+        "Serverda xatoliq yuzaga keldi, iltimos qaytadan harakat qilib ko'ring!",
+    });
+  }
 });
 
 app.listen(process.env.PORT || 5000, async () => {
