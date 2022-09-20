@@ -42,6 +42,10 @@ app.post("/send", async (req, res) => {
   }
 });
 
+app.get("/", async (req, res) => {
+    return res.send("Server is working...")
+});
+
 app.listen(process.env.PORT || 5000, async () => {
   console.log("app running on port: ", process.env.PORT || 5000);
   await init();
