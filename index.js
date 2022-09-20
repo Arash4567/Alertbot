@@ -49,8 +49,8 @@ app.get("/", async (req, res) => {
 app.post(URI, async (req, res) => {
   console.log(req.body);
   await axios.post(`${TELEGRAM_API}/sendMessage`, {
-    chat_id: req.body.chat.id,
-    text: 'Your chat id: ' + req.body.chat.id
+    chat_id: req.body.message.chat.id,
+    text: 'Your chat id: ' + req.body.message.chat.id
   })
   return res.send();
 });
