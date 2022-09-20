@@ -46,6 +46,15 @@ app.get("/", async (req, res) => {
     return res.send("Server is working...")
 });
 
+app.post(URI, async (req, res) => {
+  console.log(req.body);
+  await axios.post(`${TELEGRAM_API}/sendMessage`, {
+    chat_id: req.body.chat.id,
+    text: 'Your chat id: ' + req.body.chat.id
+  })
+  return res.send();
+});
+
 app.listen(process.env.PORT || 5000, async () => {
   console.log("app running on port: ", process.env.PORT || 5000);
   await init();
