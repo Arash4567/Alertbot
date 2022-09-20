@@ -16,28 +16,28 @@ const init = async () => {
   console.log(res.data);
 };
 
-const chatID = 883945872
-
-app.post(URI, async (req, res) => {
-  console.log(req.body);
-  await axios.post(`${TELEGRAM_API}/sendMessage`, {
-    chat_id: chatID,
-    text: req.body.message.text
-  })
-  return res.send();
-});
+// const chatID = 883945872
 
 app.post("/send", async (req, res) => {
   try {
-    await axios.post(`${TELEGRAM_API}/sendMessage`, {
-      chat_id: chatID,
-      text: req.body
-    })
-    return res.send("Successfull!");
+    const {chatID, text} = req.body;
+    if (!chatID) {
+      return res.status(400).json({
+        message: "Please enter chat id!",
+      });
+    } else {
+      await axios.post(`${TELEGRAM_API}/sendMessage`, {
+        chat_id: chatID,
+        text: text
+      })
+      return res.status(200).json({
+        message: "Successfully send message to telegram bot!",
+      });
+    }
   } catch (err) {
     return res.status(500).json({
       message:
-        "Serverda xatoliq yuzaga keldi, iltimos qaytadan harakat qilib ko'ring!",
+        "Internal Server Error!",
     });
   }
 });
