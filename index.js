@@ -18,6 +18,17 @@ const init = async () => {
 
 // const chatID = 883945872
 
+app.post(URI, async (req, res) => {
+  console.log(req.body);
+  if (!req.body.message.from.id) {
+    await axios.post(`${TELEGRAM_API}/sendMessage`, {
+      chat_id: req.body.message.from.id,
+      text: "Your chat id: " + req.body.message.from.id,
+    });
+    return res.send();
+  }
+});
+
 app.post("/send", async (req, res) => {
   try {
     const {chatID, text} = req.body;
@@ -44,15 +55,6 @@ app.post("/send", async (req, res) => {
 
 app.get("/", async (req, res) => {
     return res.send("Server is working...")
-});
-
-app.post(URI, async (req, res) => {
-  console.log(req.body);
-  await axios.post(`${TELEGRAM_API}/sendMessage`, {
-    chat_id: req.body.message.chat.id,
-    text: 'Your chat id: ' + req.body.message.chat.id
-  })
-  return res.send();
 });
 
 app.listen(process.env.PORT || 5000, async () => {
